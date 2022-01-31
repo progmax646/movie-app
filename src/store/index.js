@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import Movie from './modules/movie'
 
 export default createStore({
   state: {
@@ -8,5 +9,6 @@ export default createStore({
   actions: {
   },
   modules: {
+    Movie
   }
 })
