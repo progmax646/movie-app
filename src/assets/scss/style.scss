@@ -358,6 +358,29 @@
     position: relative;
     width: 100%;
     overflow: hidden;
+    &_btns {
+      button {
+        width: 100px;
+        margin-right: 5px;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        font-size: 60px;
+        font-weight: 900;
+        color: #323232;
+      }
+
+      #prev_btn {
+        position: absolute;
+        top: 35%;
+        left: 15%;
+      }
+      #next_btn {
+        position: absolute;
+        top: 35%;
+        right: 15%;
+      }
+    }
     &_tabs {
       padding-top: 110px;
       color: #747474;
@@ -388,6 +411,21 @@
       background-color: #0A0A0A;
       height: 400px;
       margin-top: 28px;
+      position: relative;
+      &_wrapper {
+        max-width: 700px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        &_v-carousel {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-top: 50px;
+          transition: all ease .5s;
+        }
+      }
     }
   }
   &__category:before{

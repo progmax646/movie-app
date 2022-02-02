@@ -80,6 +80,9 @@
       </div>
       <div class="cinema__category_slide">
         <div class="container">
+          <carousel
+          :data="sliderData"
+          />
         </div>
       </div>
     </div>
@@ -87,7 +90,23 @@
 </template>
 
 <script>
+import carousel from '../components/carousel'
 export default {
+  data () {
+    return {
+      sliderData: [
+        { id: 1, name: 'img1', img: '1.jpg' },
+        { id: 2, name: 'img2', img: '1.jpg' },
+        { id: 3, name: 'img3', img: '1.jpg' },
+        { id: 4, name: 'img4', img: '1.jpg' },
+        { id: 5, name: 'img5', img: '1.jpg' },
+        { id: 6, name: 'img6', img: '1.jpg' },
+        { id: 7, name: 'img7', img: '1.jpg' }
+        // { id: 8, name: 'img8', img: '1.jpg' },
+        // { id: 9, name: 'img9', img: '1.jpg' }
+      ]
+    }
+  },
   computed: {
     getBackground () {
       return {
@@ -102,6 +121,9 @@ export default {
     updated (val) {
       console.log(val)
     }
+  },
+  components: {
+    carousel
   }
 }
 </script>
