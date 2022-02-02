@@ -373,12 +373,12 @@
       #prev_btn {
         position: absolute;
         top: 35%;
-        left: 15%;
+        left: 20%;
       }
       #next_btn {
         position: absolute;
         top: 35%;
-        right: 15%;
+        right: 20%;
       }
     }
     &_tabs {
@@ -424,6 +424,83 @@
           align-items: center;
           padding-top: 50px;
           transition: all ease .5s;
+        }
+      }
+    }
+    &_films {
+      background-color: #1C1C1C;
+      color: #fff;
+      padding-top: 40px;
+      padding-bottom: 25px;
+      &_body {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        &-item {
+          display: flex;
+          flex-direction: column;
+          width: 19%;
+          margin-right: 20px;
+          margin-bottom: 50px;
+          cursor: pointer;
+          transition: all ease .3s;
+          img {
+            width: 180px;
+            height: 250px;
+          }
+          p {
+            padding: 5px 0 0 0;
+            font-weight: 700;
+            font-size: 18px;
+          }
+          span {
+            font-size: 12px;
+            font-weight: 700;
+          }
+        }
+        &-item:hover {
+          transition: .3s;
+          transform: scale(1.1);
+        }
+      }
+    }
+    &_paginations {
+      background-color: #1C1C1C;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      .Pagination {
+        display: flex;
+        justify-content: center;
+        padding-bottom: 25px;
+        &Control {
+          display: none !important;
+        }
+        li {
+          button {
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all ease .3s;
+            cursor: pointer;
+            color: #fff;
+          }
+          button:hover {
+            background-color: #A72423;
+            color: #fff;
+            border: none;
+            transition: all ease .3s;
+          }
+          .Page-active {
+            border: none;
+          }
         }
       }
     }

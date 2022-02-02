@@ -15,6 +15,7 @@
     "vue": "^3.0.0",
     "vue-ads-pagination": "^2.1.7",
     "vue-owl-carousel": "^2.0.3",
+    "vue-paginate": "^3.6.0",
     "vue-router": "^4.0.0-0",
     "vue3-pagination": "^1.0.16",
     "vuex": "^4.0.0-0"

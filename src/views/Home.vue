@@ -85,12 +85,64 @@
           />
         </div>
       </div>
+      <div class="cinema__category_films">
+        <div class="container">
+          <div class="cinema__category_films_body">
+            <div class="cinema__category_films_body-item">
+              <img src="@/assets/img/1.jpg" alt="">
+              <p>Марсианин</p>
+              <span>2018</span>
+            </div>
+            <div class="cinema__category_films_body-item">
+              <img src="@/assets/img/1.jpg" alt="">
+              <p>Марсианин</p>
+              <span>2018</span>
+            </div>
+            <div class="cinema__category_films_body-item">
+              <img src="@/assets/img/1.jpg" alt="">
+              <p>Марсианин</p>
+              <span>2018</span>
+            </div>
+            <div class="cinema__category_films_body-item">
+              <img src="@/assets/img/1.jpg" alt="">
+              <p>Марсианин</p>
+              <span>2018</span>
+            </div>
+            <div class="cinema__category_films_body-item">
+              <img src="@/assets/img/1.jpg" alt="">
+              <p>Марсианин</p>
+              <span>2018</span>
+            </div>
+            <div class="cinema__category_films_body-item">
+              <img src="@/assets/img/1.jpg" alt="">
+              <p>Марсианин</p>
+              <span>2018</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cinema__category_paginations">
+        <div class="container">
+          <v-pagination
+            v-model="activePage"
+            :pages="10"
+            :range-size="1"
+            :hideFirstButton="true"
+            :hideLastButton="true"
+            active-color="#A72423"
+            @update="updated()"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import carousel from '../components/carousel'
+import VPagination from '@hennge/vue3-pagination'
+import '@hennge/vue3-pagination/dist/vue3-pagination.css'
+
 export default {
   data () {
     return {
@@ -104,7 +156,8 @@ export default {
         { id: 7, name: 'img7', img: '1.jpg' }
         // { id: 8, name: 'img8', img: '1.jpg' },
         // { id: 9, name: 'img9', img: '1.jpg' }
-      ]
+      ],
+      activePage: 0
     }
   },
   computed: {
@@ -123,7 +176,8 @@ export default {
     }
   },
   components: {
-    carousel
+    carousel,
+    VPagination
   }
 }
 </script>
