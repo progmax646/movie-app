@@ -6,6 +6,7 @@
   position: absolute;
   left: 0;
   right: 0;
+  top: 15px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 15px;
@@ -57,17 +58,17 @@
           color: #fff;
           font-size: 15px;
           font-weight: 700;
-          padding: 9px 40px;
+          padding: 0 61px;
         }
         .active {
           background-color: #383838;
           border-radius: 25px;
-          width: 100px;
           color: #fff;
           display: flex;
           justify-content: center;
           line-height: 40px;
           padding: 0 61px;
+          transition: all ease .3s;
         }
       }
       &-search {
@@ -200,17 +201,21 @@
       margin: 0 auto;
       padding-top: 30px;
       &-img {
-        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 45%;
         margin-right: 25px;
         img {
           width: 95%;
-          height: 350px;
+          height: auto;
           -webkit-box-shadow: -2px -1px 11px 13px rgba(34, 60, 80, 0.2);
           -moz-box-shadow: -2px -1px 11px 13px rgba(34, 60, 80, 0.2);
           box-shadow: -2px -1px 11px 13px rgba(34, 60, 80, 0.2);
         }
       }
       &-preview {
+        width: 50%;
         .cinema-name {
           h6 {
             font-size: 25px;
@@ -300,19 +305,21 @@
         justify-content: space-between;
         width: 100%;
         &-item {
+          width: 24%;
           position: relative;
           cursor: pointer;
           transition: .3s;
+          margin-right: 10px;
           img {
             border-radius: 10px;
           }
           p {
             position: absolute;
-            top: 70px;
-            left: 50px;
+            top: 30px;
+            left: 30px;
             color: #fff;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 14px;
             opacity: .7;
             transition: .3s;
           }
@@ -334,7 +341,7 @@
             transition: .3s;
             color: #fff;
             opacity: 1;
-            top: 50px;
+            top: 20px;
           }
         }
       }

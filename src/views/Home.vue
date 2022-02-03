@@ -4,23 +4,23 @@
       <div class="container">
         <div class="cinema__header_info">
           <div class="cinema__header_info-img">
-            <img src="@/assets/img/1.jpg" alt="">
+            <img :src="'https://image.tmdb.org/t/p/w500' + popularObj.backdrop_path" alt="">
           </div>
           <div class="cinema__header_info-preview">
             <div class="cinema-name">
-              <h6>Марсианин</h6>
-              <span>2015</span>
+              <h6>{{ getTittle(popularObj) }}</h6>
+              <span>{{ popularObj.release_date }}</span>
             </div>
             <div class="cinema-genre">
-              <span>Путешествие, Комедия, Драма</span>
+              <span>{{ getGenreName(popularObj.genre_ids) }}</span>
             </div>
             <div class="cinema-rating">
               <i class="fa fa-star" aria-hidden="true"></i>
-              <span>8.1/10</span>
+              <span>{{ popularObj.vote_average }}/10</span>
               <img src="@/assets/img/imdb.png" alt="" width="50">
             </div>
             <div class="cinema-text">
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla, tempora, voluptatibus. Aperiam distinctio id molestias tempore unde? Accusamus aut, dolore earum est ex officiis tenetur. Architecto eaque magni maiores quia.</p>
+              <p>{{ getShortText(popularObj.overview, 200, '...') }}</p>
             </div>
             <div class="cinema-action">
               <button>Смотреть трейлер</button>
@@ -33,21 +33,9 @@
             <h6>Фильмы</h6>
           </div>
           <div class="cinema__header_tabs_body">
-            <div class="cinema__header_tabs_body-item">
-              <img src="@/assets/img/2.jpg" alt="" width="200">
-              <p>Марсианин</p>
-            </div>
-            <div class="cinema__header_tabs_body-item">
-              <img src="@/assets/img/2.jpg" alt="" width="200">
-              <p>Марсианин</p>
-            </div>
-            <div class="cinema__header_tabs_body-item">
-              <img src="@/assets/img/2.jpg" alt="" width="200">
-              <p>Марсианин</p>
-            </div>
-            <div class="cinema__header_tabs_body-item">
-              <img src="@/assets/img/2.jpg" alt="" width="200">
-              <p>Марсианин</p>
+            <div class="cinema__header_tabs_body-item" v-for="item in getPopularObjs" :key="item.id">
+              <img :src="'https://image.tmdb.org/t/p/w200' + item.backdrop_path" alt="">
+              <p>{{ getTittle(item) }}</p>
             </div>
           </div>
         </div>
@@ -56,25 +44,8 @@
     <div class="cinema__category">
       <div class="container">
         <div class="cinema__category_tabs">
-          <div class="cinema__category_tabs-item">
-            <p>Популярное</p>
-          </div>
-          <div class="cinema__category_tabs-item">
-            <p>Популярное</p>
-          </div>
-          <div class="cinema__category_tabs-item">
-            <p>Популярное</p>
-          </div>
-          <div class="cinema__category_tabs-item">
-            <p>Популярное</p>
-          </div>
-          <div class="cinema__category_tabs-item">
-            <p>Популярное</p>
-          </div>          <div class="cinema__category_tabs-item">
-          <p>Популярное</p>
-        </div>
-          <div class="cinema__category_tabs-item">
-            <p>Популярное</p>
+          <div class="cinema__category_tabs-item" v-for="item in getFirstSevenObj" :key="item.id">
+            <p>{{ item.name }}</p>
           </div>
         </div>
       </div>
@@ -142,6 +113,7 @@
 import carousel from '../components/carousel'
 import VPagination from '@hennge/vue3-pagination'
 import '@hennge/vue3-pagination/dist/vue3-pagination.css'
+import { mapState } from 'vuex'
 
 export default {
   data () {
@@ -157,14 +129,25 @@ export default {
         // { id: 8, name: 'img8', img: '1.jpg' },
         // { id: 9, name: 'img9', img: '1.jpg' }
       ],
+      categoryApp: 1,
       activePage: 0
     }
   },
   computed: {
+    ...mapState('Movie', ['popularObj', 'popularObjs', 'genres', 'activeCategory']),
+
     getBackground () {
       return {
         'background-image': 'url(\'@/img/back_test.jpg\')'
       }
+    },
+    getPopularObjs () {
+      const filt = this.popularObjs.filter((item, idx) => idx < 5)
+      return filt
+    },
+    getFirstSevenObj () {
+      const result = this.genres.filter((item, idx) => idx < 8)
+      return result
     }
   },
   methods: {
@@ -173,11 +156,43 @@ export default {
     },
     updated (val) {
       console.log(val)
+    },
+    getShortText (str, max, add) {
+      add = add || '...'
+      return (typeof str === 'string' && str.length > max ? str.substring(0, max) + add : str)
+    },
+    // возврат жанра по id
+    getGenreName (obj = []) {
+      const allGenres = this.genres
+      let result = ''
+      if (obj.length > 0 && allGenres.length > 0) {
+        obj.forEach((element, idx) => {
+          const res = allGenres.find(item => item.id === element)
+          if (obj.length > idx + 1) {
+            result += res.name + ', '
+          } else {
+            result += res.name + '.'
+          }
+        })
+
+        return result
+      }
+
+      return 'Не найдено'
+    },
+
+    getTittle (obj) {
+      const result = this.activeCategory === 1 ? obj.title : obj.name
+      return result
     }
   },
   components: {
     carousel,
     VPagination
+  },
+  async created () {
+    await this.$store.dispatch('Movie/getMovieGenre')
+    await this.$store.dispatch('Movie/getPopular', { category: 1 })
   }
 }
 </script>

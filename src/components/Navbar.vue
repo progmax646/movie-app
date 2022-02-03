@@ -8,8 +8,8 @@
     </div>
     <div class="nav__body_item">
       <div class="nav__body_item-tabs">
-        <a href="#" class="active">Сериалы</a>
-        <a href="#">Фильмы</a>
+        <a href="#" :class="{active: activeCategory === 2}" @click="changeCategory(2)">Сериалы</a>
+        <a href="#" :class="{active: activeCategory === 1}" @click="changeCategory(1)">Фильмы</a>
       </div>
     </div>
     <div class="nav__body_item">
@@ -24,8 +24,18 @@
 </template>
 
 <script>
+/* eslint-disable */
+import {mapState} from 'vuex'
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  computed: {
+    ...mapState('Movie', ['activeCategory'])
+  },
+  methods: {
+    async changeCategory(val) {
+      await this.$store.dispatch('Movie/getPopular', { category: val })
+    }
+  }
 }
 </script>
 
