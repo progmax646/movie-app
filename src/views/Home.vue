@@ -2,7 +2,7 @@
   <div class="cinema pt-100">
     <div class="cinema__header">
       <div class="container">
-        <div class="cinema__header_info">
+        <div class="cinema__header_info" v-if="!loader">
           <div class="cinema__header_info-img">
             <img :src="'https://image.tmdb.org/t/p/w500' + popularObj.backdrop_path" alt="">
           </div>
@@ -12,7 +12,7 @@
               <span>{{ popularObj.release_date }}</span>
             </div>
             <div class="cinema-genre">
-              <span>{{ getGenreName(popularObj.genre_ids) }}</span>
+              <span>{{ popularObj.genre_ids }}</span>
             </div>
             <div class="cinema-rating">
               <i class="fa fa-star" aria-hidden="true"></i>
@@ -28,15 +28,21 @@
             </div>
           </div>
         </div>
+        <div v-else>
+          <Loader />
+        </div>
         <div class="cinema__header_tabs">
           <div class="cinema__header_tabs_header">
             <h6>Фильмы</h6>
           </div>
-          <div class="cinema__header_tabs_body">
+          <div class="cinema__header_tabs_body" v-if="!loader">
             <div class="cinema__header_tabs_body-item" v-for="item in getPopularObjs" :key="item.id">
               <img :src="'https://image.tmdb.org/t/p/w200' + item.backdrop_path" alt="">
               <p>{{ getTittle(item) }}</p>
             </div>
+          </div>
+          <div v-else>
+            <Loader />
           </div>
         </div>
       </div>
@@ -111,6 +117,7 @@
 
 <script>
 import carousel from '../components/carousel'
+import Loader from '@/components/Loader'
 import VPagination from '@hennge/vue3-pagination'
 import '@hennge/vue3-pagination/dist/vue3-pagination.css'
 import { mapState } from 'vuex'
@@ -134,7 +141,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('Movie', ['popularObj', 'popularObjs', 'genres', 'activeCategory']),
+    ...mapState('Movie', ['popularObj', 'popularObjs', 'genres', 'activeCategory', 'loader']),
 
     getBackground () {
       return {
@@ -162,24 +169,24 @@ export default {
       return (typeof str === 'string' && str.length > max ? str.substring(0, max) + add : str)
     },
     // возврат жанра по id
-    getGenreName (obj = []) {
-      const allGenres = this.genres
-      let result = ''
-      if (obj.length > 0 && allGenres.length > 0) {
-        obj.forEach((element, idx) => {
-          const res = allGenres.find(item => item.id === element)
-          if (obj.length > idx + 1) {
-            result += res.name + ', '
-          } else {
-            result += res.name + '.'
-          }
-        })
+    // getGenreName (obj = []) {
+    //   const allGenres = this.genres
+    //   let result = ''
+    //   if (obj.length > 0 && allGenres.length > 0) {
+    //     obj.forEach((element, idx) => {
+    //       const res = allGenres.find(item => item.id === element)
+    //       if (obj.length > idx + 1) {
+    //         result += res.name + ', '
+    //       } else {
+    //         result += res.name + '.'
+    //       }
+    //     })
 
-        return result
-      }
+    //     return result
+    //   }
 
-      return 'Не найдено'
-    },
+    //   return 'Не найдено'
+    // },
 
     getTittle (obj) {
       const result = this.activeCategory === 1 ? obj.title : obj.name
@@ -188,7 +195,8 @@ export default {
   },
   components: {
     carousel,
-    VPagination
+    VPagination,
+    Loader
   },
   async created () {
     await this.$store.dispatch('Movie/getMovieGenre')

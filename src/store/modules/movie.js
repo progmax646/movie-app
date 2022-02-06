@@ -10,7 +10,8 @@ export default {
       genres: [],
       popularObj: [],
       popularObjs: [],
-      activeCategory: 1
+      activeCategory: 1,
+      loader: false
     }
   },
   mutations: {
@@ -62,6 +63,7 @@ export default {
     },
     // поиск жанров фильмов
     async getMovieGenre ({ state }) {
+      state.loader = true
       try {
         await fetch (state.movieUrl + '/genre/movie/list?' + new URLSearchParams({
           api_key: state.movieApi,
@@ -73,29 +75,36 @@ export default {
           .then (data => {
             state.genres = data.genres
           })
+          state.loader = false
       } catch (e) {
+        state.loader = false
         alert(e)
       }
     },
     // поиск популярного фильма
-    async getPopular({ state }, data) {
+    getPopular({ state }, data) {
       // category = 1 - фильмы ; 2 - сериалы
       state.activeCategory = data.category
-      try {
-        await fetch(state.movieUrl + (state.activeCategory === 1?'/movie/popular?':'/tv/popular?') + new URLSearchParams({
-          api_key: state.movieApi,
-          language: 'ru',
-        }))
-        .then (data => {
-          return data.json()
-        })
-        .then(data => {
-          state.popularObjs = data.results
-          state.popularObj = data.results[0]
-        })
-    } catch (e) {
-      alert(e)
-    }
+      state.loader = true
+      setTimeout(async () => {
+        try {
+          await fetch(state.movieUrl + (state.activeCategory === 1?'/movie/popular?':'/tv/popular?') + new URLSearchParams({
+            api_key: state.movieApi,
+            language: 'ru',
+          }))
+          .then (data => {
+            return data.json()
+          })
+          .then(data => {
+            state.popularObjs = data.results
+            state.popularObj = data.results[0]
+          })
+          state.loader = false
+      } catch (e) {
+        state.loader = false
+        alert(e)
+      }
+      }, 1500)
     }
   },
   getters: {
